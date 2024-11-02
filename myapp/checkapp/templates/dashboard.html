@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ user.first_name }}!</h2>
+
+{% if user.account_type == 'Job Seeker' %}
+    <h3>Your Job Applications</h3>
+    <ul>
+        <!-- Job applications list here -->
+    </ul>
+{% elif user.account_type == 'Company' %}
+    <h3>Your Job Postings</h3>
+    <ul>
+        <!-- Job postings list here -->
+    </ul>
+{% endif %}
+{% endblock %}
