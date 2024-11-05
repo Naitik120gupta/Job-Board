@@ -1,5 +1,10 @@
 from datetime import timedelta
 from pathlib import Path
+import environ
+
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-98wfcq1#vya32*k%g)*mqpecoz%1^^7b=gsd(i9co4s#=zz+5g'
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,7 +52,7 @@ MIDDLEWARE = [
 ]
 
 RECAPTCHA_PUBLIC_KEY = '6LezfHUqAAAAAGhAQ3ZxHFC76e7a8624kdQjYjKM'
-RECAPTCHA_PRIVATE_KEY = '6LezfHUqAAAAANSEfTRp6B7-lj6DxWCUJGg5-ETd'
+RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_USE_SSL = True
 
 ACCOUNT_FORMS = {
@@ -122,7 +127,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  
     'allauth.account.auth_backends.AuthenticationBackend',  
 ]
-# Redirects after login
 LOGIN_REDIRECT_URL = '/job/list/' 
 LOGOUT_REDIRECT_URL = '/login/'
 
@@ -131,14 +135,13 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-# ACCOUNT_EMAIL_VERIFICATION = False 
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
             'client_id': '805701739913-lmeot3i7ig76oqee63tpndsvik6cgroq.apps.googleusercontent.com',
-            'secret': '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',
+            'secret': env('SECRET_KEY'),
             'key': ''
         }
     }
