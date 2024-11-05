@@ -15,6 +15,10 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser):
@@ -42,6 +46,8 @@ class User(AbstractBaseUser):
 
 class JobPosting(models.Model):
     company = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'account_type': 'Company'})
+    job_title = models.CharField(max_length=255)  
+    job_description = models.TextField()   
     title = models.CharField(max_length=255)
     description = models.TextField()
     location = models.CharField(max_length=100)

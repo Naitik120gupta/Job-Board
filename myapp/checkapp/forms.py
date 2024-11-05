@@ -1,7 +1,20 @@
+from .models import User,JobPosting
+from django import forms
+from allauth.account.forms import SignupForm
+
+# from captcha.fields import ReCaptchaField
+
+# class CustomSignupForm(SignupForm):
+#     captcha = ReCaptchaField()
+#     def signup(self, request, user):
+#         return super().signup(request, user)
+
 # jobboard/forms.py
 
-from django import forms
-from .models import User
+class JobUpdateForm(forms.ModelForm):
+    class Meta:
+        model = JobPosting
+        fields = ['job_title', 'job_description', 'location', 'salary', 'application_deadline', 'status']
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)

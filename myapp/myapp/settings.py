@@ -27,7 +27,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',          # Required by allauth
+    'allauth',
+    'allauth.account',               # For account management
+    'allauth.socialaccount',         # Social account management
+    'allauth.socialaccount.providers.google', 
 ]
+SITE_ID=1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -37,7 +43,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
+
+RECAPTCHA_PUBLIC_KEY = '6LezfHUqAAAAAGhAQ3ZxHFC76e7a8624kdQjYjKM'
+RECAPTCHA_PRIVATE_KEY = '6LezfHUqAAAAANSEfTRp6B7-lj6DxWCUJGg5-ETd'
+RECAPTCHA_USE_SSL = True
+
+ACCOUNT_FORMS = {
+    'signup': 'jobboard.forms.CustomSignupForm',  # Pointing to our custom form with reCAPTCHA
+}
 
 ROOT_URLCONF = 'myapp.urls'
 
@@ -103,6 +118,31 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  
+    'allauth.account.auth_backends.AuthenticationBackend',  
+]
+# Redirects after login
+LOGIN_REDIRECT_URL = '/job/list/' 
+LOGOUT_REDIRECT_URL = '/login/'
+
+# django-allauth settings
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_VERIFICATION = False 
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '805701739913-lmeot3i7ig76oqee63tpndsvik6cgroq.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
