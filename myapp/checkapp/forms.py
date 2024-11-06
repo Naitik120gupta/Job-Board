@@ -1,6 +1,6 @@
 from .models import User,JobPosting
 from django import forms
-from allauth.account.forms import SignupForm
+# from allauth.account.forms import SignupForm
 
 # from captcha.fields import ReCaptchaField
 
@@ -9,7 +9,6 @@ from allauth.account.forms import SignupForm
 #     def signup(self, request, user):
 #         return super().signup(request, user)
 
-# jobboard/forms.py
 
 class JobUpdateForm(forms.ModelForm):
     class Meta:

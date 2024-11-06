@@ -13,8 +13,29 @@ from django.contrib import messages
 from .models import Application
 from django.http import JsonResponse, HttpResponseForbidden
 from .forms import JobUpdateForm
+from django.views.decorators.csrf import csrf_exempt
+
+# @csrf_exempt
+# def password_reset_confirm(request, token):
+#     if request.method == 'POST':
+#         try:
+#             new_password = request.POST.get('new_password')
+#             uidb64 = request.POST.get('uid')
+#             uid = urlsafe_base64_decode(uidb64).decode()
+#             user = User.objects.get(pk=uid)
+#             if default_token_generator.check_token(user, token):
+#                 user.password = make_password(new_password)
+#                 user.save()
+#                 return JsonResponse({'message': 'Password reset successful'}, status=200)
+#             else:
+#                 return JsonResponse({'error': 'Invalid token'}, status=400)
+#         except (User.DoesNotExist, ValidationError):
+#             return JsonResponse({'error': 'Invalid UID or token'}, status=400)
+#     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 
 @login_required
+@csrf_exempt
 def update_job(request, job_id):
     if request.method == 'PUT':
         if request.user.account_type != 'Company':

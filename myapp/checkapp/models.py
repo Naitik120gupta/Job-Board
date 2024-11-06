@@ -45,9 +45,9 @@ class User(AbstractBaseUser):
         return self.email
 
 class JobPosting(models.Model):
-    company = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'account_type': 'Company'})
-    job_title = models.CharField(max_length=255)  
-    job_description = models.TextField()   
+    company = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'account_type': 'Company'},related_name='job_postings')
+    job_title = models.CharField(max_length=255,default="No title given")
+    job_description = models.TextField(null=True, blank=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     location = models.CharField(max_length=100)
@@ -63,7 +63,11 @@ class Application(models.Model):
     job_seeker = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'account_type': 'Job Seeker'})
     job = models.ForeignKey(JobPosting, on_delete=models.CASCADE)
     application_date = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=10, choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected')], default='Pending')
-
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+        ('Rejected', 'Rejected'),
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
     def __str__(self):
         return f"{self.job_seeker.email} - {self.job.title}"
